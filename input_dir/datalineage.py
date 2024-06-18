@@ -7,11 +7,10 @@ from pyspark.shell import sc
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 
-jar_path = "C:\spark-3.4.3-bin-hadoop3\openlineage-spark_2.12-1.13.1.jar"
+#jar_path = "C:\spark-3.4.3-bin-hadoop3\openlineage-spark_2.12-1.13.1.jar"
 spark = SparkSession.builder.getOrCreate()
 sc.setLogLevel("DEBUG")
-spark = (SparkSession.builder.master('local').appName('Python Spark SQL basic example')
-         .config('spark.jars', jar_path)
+spark = (SparkSession.builder.master('local').appName('Python Spark SQL basic example')         
          .config('spark.some.config.option', 'some-value')
          .config('spark.openlineage.transport.type', 'http')
          .config('spark.extraListeners', 'io.openlineage.spark.agent.OpenLineageSparkListener')
@@ -24,8 +23,8 @@ spark = (SparkSession.builder.master('local').appName('Python Spark SQL basic ex
          .getOrCreate())
 
 # Your Spark job code
-input_path = "C:\\spark-3.4.3-bin-hadoop3\\test.csv"
-output_path = "C:\\spark-3.4.3-bin-hadoop3\\output.csv"
+input_path = "s3://ddsl-extension-bucket/test.csv"
+output_path = "s3://ddsl-extension-bucket/output.csv"
 #df = spark.read.csv(input_path, header=True)
 df = spark.read.csv(input_path, header=True)
 # df_transformed = df.withColumn("Column1[0]")
@@ -35,7 +34,7 @@ number = 200
 df_transformed = df.filter(col(first_column) >= number)
 df_transformed.write.mode('overwrite').csv(output_path, header=True)
 df.show()
-df.write.csv("C:\\spark-3.4.3-bin-hadoop3\\data_lineage.csv")
+df.write.csv("s3://ddsl-extension-bucket//data_lineage.csv")
 lineage_data = {
     "job_name": "YourSparkJob",
     "inputs": [input_path],
