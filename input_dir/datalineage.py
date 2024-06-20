@@ -1,11 +1,13 @@
 import io
 import json
 import pandas as pd
-import pyspark
 from pyspark import conf
 from pyspark.shell import sc
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
+import pyspark
+from pyspark.sql import SparkSession
+
 
 #jar_path = "C:\spark-3.4.3-bin-hadoop3\openlineage-spark_2.12-1.13.1.jar"
 spark = SparkSession.builder.getOrCreate()
@@ -21,6 +23,7 @@ spark = (SparkSession.builder.master('local').appName('Python Spark SQL basic ex
          .config('spark.openlineage.parentJobName', 'airflow_dag.airflow_task')
          .config('spark.openlineage.parentRunId', 'xxxx-xxxx-xxxx-xxxx')
          .getOrCreate())
+sc=spark.sparkContext
 
 # Your Spark job code
 input_path = "s3://ddsl-extension-bucket/test.csv"
