@@ -325,10 +325,8 @@ resource "aws_iam_policy" "gluepolicy" {
                 "logs:CreateLogStream",
                 "logs:PutLogEvents",
                 "logs:DescribeLogStreams"
-            ],
-            "Resource": [
-                "arn:aws:logs:*:*:/aws-glue/*"
-            ]
+            ],            
+             "Resource": "*"
         }                  
     ]
   })  
