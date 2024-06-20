@@ -42,9 +42,6 @@ lineage_data = {
 }
 lineage_json = json.dumps(lineage_data)
 
-# Initialize Glue client
-glue = boto3.client('glue')
-
 # Example S3 location to store lineage information
 s3_bucket = 's3://ddsl-extension-bucket'
 s3_key = 'lineage.json'
