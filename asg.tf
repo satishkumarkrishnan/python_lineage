@@ -1,3 +1,8 @@
+#Terraform resource for key pair
+resource "aws_key_pair" "deployer" {
+  key_name   = "ec2-key"
+  public_key = file("${path.module}/key")
+}
 #Terraform Launch Template Resource creation
 resource "aws_launch_template" "ddsl_launch_template" {
   #count         = 2
