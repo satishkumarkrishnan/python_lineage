@@ -1,7 +1,7 @@
 #!/bin/bash   
 sudo apt update
 sudo apt list --upgradable
-sudo apt install -y apache2    
+sudo apt install apache2 -y  
 sudo ufw allow 'Apache'
 sudo systemctl status apache2
 sudo mkdir /var/www/alb
