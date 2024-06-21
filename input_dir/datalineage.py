@@ -13,6 +13,7 @@ sc =SparkContext.getOrCreate()
 sc.setLogLevel("DEBUG")
 spark = (SparkSession.builder.master('local').appName('Python Spark SQL basic example')         
          .config('spark.some.config.option', 'some-value')
+         .config('spark.openlineage.transport.type', 'http')
          .config('spark.extraListeners', 'io.openlineage.spark.agent.OpenLineageSparkListener')
          .config('spark.openlineage.transport.type', 'https')
          .config('spark.openlineage.transport.url', 'https://ec2-43-207-200-127.ap-northeast-1.compute.amazonaws.com:443')
@@ -26,9 +27,9 @@ spark = (SparkSession.builder.master('local').appName('Python Spark SQL basic ex
 input_path = "s3://ddsl-rawdata-bucket/test.csv"
 output_path = "s3://ddsl-extension-bucket/output.csv"
 df = spark.read.csv(input_path, header=True)
-first_column = df.columns[0]
-number = 200
-filtered_df = df.filter(df[first_column] >= number)
+third_column = df.columns[2]
+age = 40
+filtered_df = df.filter(df[third_column] >= age)
 filtered_df.show()
 filtered_df.write.csv("s3://ddsl-extension-bucket/filtered_data.csv", header=True)
 #df_transformed = df.filter(col(first_column) >= number)
