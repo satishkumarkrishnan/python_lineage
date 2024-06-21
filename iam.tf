@@ -275,23 +275,13 @@ resource "aws_iam_policy" "gluepolicy" {
                 "kms:DescribeKey",   
                 "kms:Encrypt*",
                 "kms:Decrypt*",
-                "kms:GenerateDataKey"              
+                "kms:GenerateDataKey",
+                "kms:ReEncrypt*"             
             ],
             "Resource": [
                 "*"
             ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:PutObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::*/*aws-glue-*/*",
-                "arn:aws:s3:::aws-glue-*"
-            ]
-        },        
+        },         
         {
             "Action": [
                 "s3:GetObject",
@@ -301,7 +291,7 @@ resource "aws_iam_policy" "gluepolicy" {
             ],
             "Resource": [
                 "arn:aws:s3:::ddsl-rawdata-bucket/*",
-                "arn:aws:s3:::ddsl-extension-bucket/*"             
+                "arn:aws:s3:::ddsl-extension-bucket/*"            
             ],
             "Effect": "Allow"
         },
