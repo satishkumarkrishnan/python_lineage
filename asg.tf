@@ -6,7 +6,7 @@ resource "aws_launch_template" "ddsl_launch_template" {
   instance_type = var.instance_type
   user_data     = filebase64("${path.module}/user_data.sh")  
   key_name      = "ec2-key"
-  vpc_security_group_ids = [module.vpc.vpc_fe_sg]    
+  vpc_security_group_ids = [module.aws_glue.vpc_fe_sg]    
   tag_specifications {
     resource_type = "instance"
 
@@ -22,7 +22,7 @@ resource "aws_autoscaling_group" "ddsl_asg" {
   max_size               = var.max_size
   min_size               = var.min_size
   health_check_type      = "EC2"
-  vpc_zone_identifier    = [module.vpc.vpc_fe_subnet.id, module.vpc.vpc_be_subnet.id]
+  vpc_zone_identifier    = [module.aws_glue.vpc_fe_subnet.id, module.aws_glue.vpc_be_subnet.id]
   launch_template {
       id      = aws_launch_template.ddsl_launch_template.id      
       version = "$Latest"
