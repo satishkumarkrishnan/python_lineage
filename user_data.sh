@@ -4,6 +4,7 @@ sudo apt update
 sudo apt list --upgradable
 sudo apt install apache2 -y  
 sudo ufw allow 'Apache'
+sudo systemctl start apache2
 sudo systemctl status apache2
 sudo mkdir /var/www/alb
 sudo chown -R $USER:$USER /var/www/alb
