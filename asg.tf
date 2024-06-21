@@ -9,7 +9,8 @@ resource "aws_launch_template" "ddsl_launch_template" {
   name_prefix   = "ddsl_asg"
   image_id      = var.ami
   instance_type = var.instance_type
-  user_data     = filebase64("${path.module}/user_data.sh")
+  #user_data     = filebase64("${path.module}/user_data.sh")
+  user_data     = "${file("user_data.sh")}"
   key_name      = "ec2-key"
   vpc_security_group_ids = [module.aws_glue.vpc_fe_sg]    
   tag_specifications {
