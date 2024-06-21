@@ -62,7 +62,7 @@ variable "role" {
 variable "ami" {
   description = "The AMI to run in the cluster"
   type        = string
-  default     = "ami-0aeffbe3b8db77bf8"   
+  default     = "aami-0e2a9a202f6e45db3"   
 }
 
 variable "instance_type" {
