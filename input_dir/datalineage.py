@@ -2,25 +2,21 @@ import io
 import json
 import pandas as pd
 import pyspark
+import boto3
 from pyspark import conf
-from pyspark.shell import sc
+from awsglue.context import GlueContext
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
-import boto3
-
-#from boto3_fixtures.contrib import boto3
-from urllib3 import packages
-
-jar_path = "C:\spark-3.4.3-bin-hadoop3\openlineage-spark_2.12-1.13.1.jar"
-spark = SparkSession.builder.getOrCreate()
+from pyspark import SparkContext
+ 
+sc =SparkContext.getOrCreate()
 sc.setLogLevel("DEBUG")
-spark = (SparkSession.builder.master('local').appName('Python Spark SQL basic example')
-         .config('spark.jars', jar_path)
+spark = (SparkSession.builder.master('local').appName('Python Spark SQL basic example')         
          .config('spark.some.config.option', 'some-value')
          .config('spark.openlineage.transport.type', 'http')
          .config('spark.extraListeners', 'io.openlineage.spark.agent.OpenLineageSparkListener')
          .config('spark.openlineage.transport.type', 'http')
-         .config('spark.openlineage.transport.url', 'http://localhost:8080')
+         .config('spark.openlineage.transport.url', 'http://localhost:80')
          .config('spark.openlineage.namespace', 'spark_namespace')
          .config('spark.openlineage.parentJobNamespace', 'airflow_namespace')
          .config('spark.openlineage.parentJobName', 'airflow_dag.airflow_task')
@@ -28,29 +24,30 @@ spark = (SparkSession.builder.master('local').appName('Python Spark SQL basic ex
          .getOrCreate())
 
 # Your Spark job code
-input_path = "C:\\spark-3.4.3-bin-hadoop3\\test.csv"
-output_path = "C:\\spark-3.4.3-bin-hadoop3\\output.csv"
+input_path = "s3://ddsl-rawdata-bucket/test.csv"
+output_path = "s3://ddsl-extension-bucket/output.csv"
 df = spark.read.csv(input_path, header=True)
-third_column = df.columns[2]
-age = 40
-
-filtered_df = df.filter(df["age"] >= 40)
+first_column = df.columns[0]
+number = 200
+filtered_df = df.filter(df[first_column] >= number)
 filtered_df.show()
-
-filtered_df.write.csv("C:\\spark-3.4.3-bin-hadoop3\\filtered_data.csv", header=True)
+filtered_df.write.csv("s3://ddsl-extension-bucket/filtered_data.csv", header=True)
+#df_transformed = df.filter(col(first_column) >= number)
+#df_transformed.write.mode('overwrite').csv(output_path, header=True)
 lineage_data = {
     "job_name": "YourSparkJob",
     "inputs": [input_path],
     "outputs": [output_path],
 }
 lineage_json = json.dumps(lineage_data)
+ 
 # Initialize Glue client
 glue = boto3.client('glue')
-
+ 
 # Example S3 location to store lineage information
-s3_bucket = 's3://ddsl-extension-bucket/'
+s3_bucket = 's3://ddsl-extension-bucket'
 s3_key = 'lineage.json'
-
+ 
 # Upload lineage JSON to S3
-#glue.put_data_catalog_lineage_settings(CatalogId='your-catalog-id', LineageSettings={"LineageData": lineage_json})
+df.write.format('json').save('s3://ddsl-extension-bucket/lineage.json')
 spark.stop()
