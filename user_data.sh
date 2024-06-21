@@ -1,7 +1,8 @@
 #!/bin/bash   
 apt update
 apt list --upgradable
-apt install apache2    
+apt install apache2  
+apt install net-tools  
 ufw allow 'Apache'
 systemctl status apache2
 mkdir /var/www/alb
