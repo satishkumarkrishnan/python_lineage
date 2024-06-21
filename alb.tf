@@ -12,7 +12,7 @@ resource "aws_lb" "test" {
 # Target Group Creation
 resource "aws_lb_target_group" "target-group" {
   name        = "ddsl-lb-tg"
-  port        = 80
+  port        = 5000
   protocol    = "HTTP"
   target_type = "instance"  
   vpc_id      = module.aws_glue.vpc_id  
@@ -34,7 +34,7 @@ resource "aws_lb_target_group" "target-group" {
 #ALB Listener
 resource "aws_lb_listener" "alb-listener" {
   load_balancer_arn = aws_lb.test.arn
-  port              = 80
+  port              = 5000
   protocol          = "HTTP"
   depends_on        = [aws_lb_target_group.target-group]
 
