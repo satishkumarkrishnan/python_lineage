@@ -42,7 +42,7 @@ def save_to_file(file_name, contents):
 
 def call_dataFlowAnalyzer(args):
     # Start the Java Virtual Machine (JVM)
-    widget_server_url = "http://ec2-3-112-25-181.ap-northeast-1.compute.amazonaws.com:5000"
+    widget_server_url = "http:localhost:8000"
     jvm = jpype.getDefaultJVMPath()
     jar = "s3://ddsl-rawdata-bucket/gudusoft.gsqlparser-2.8.5.8.jar"
     jpype.startJVM(jvm, "-ea", jar)
