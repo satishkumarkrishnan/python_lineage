@@ -28,7 +28,7 @@ output "private_key" {
 
 #VPC Outputs
 output "vpc_id" {
-  value = module.aws_glue.vpc.id
+  value = module.aws_glue.vpc_id
 }
 
 output "vpc_fe_subnet" {
