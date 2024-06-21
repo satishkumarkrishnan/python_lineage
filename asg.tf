@@ -9,16 +9,7 @@ resource "aws_launch_template" "ddsl_launch_template" {
   name_prefix   = "ddsl_asg"
   image_id      = var.ami
   instance_type = var.instance_type
-  user_data = <<-EOF
-     #!/bin/bash
-     sudo su
-     yum update -y
-     yum install httpd -y
-     systemctl start httpd
-	 systemctl stop httpd
-     systemctl enable httpd
-     echo "<h1>loading from $(hostname -f)..</h1>" > /var/www/html/index.html
-  EOF 
+  user_data     = filebase64("${path.module}/user_data.sh")
   key_name      = "ec2-key"
   vpc_security_group_ids = [module.aws_glue.vpc_fe_sg]    
   tag_specifications {
