@@ -18,7 +18,7 @@ resource "aws_glue_job" "example" {
     "--enable-metrics"                   = "true"
     "--job-language"                     = "Python 3"
     "--scriptLocation"                   = "s3://${aws_s3_bucket.example1.bucket}/datalineage.py"
-    "--extra-jars"                       = "s3://${aws_s3_bucket.example1.bucket}/gudusoft.gsqlparser-2.8.5.8.jar"
+    "--extra-jars"                       = "s3://${aws_s3_bucket.example1.bucket}/openlineage-spark_2.12-1.13.1.jar,"
     "--user-jars-first"                  = "true" 
     "--encryption-type"                  = ""
   }
