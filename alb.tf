@@ -13,7 +13,7 @@ resource "aws_lb" "test" {
 resource "aws_lb_target_group" "target-group" {
   name        = "ddsl-lb-tg"
   port        = 5000
-  protocol    = "HTTP"
+  protocol    = "HTTPS"
   target_type = "instance"  
   vpc_id      = module.aws_glue.vpc_id  
 
@@ -22,7 +22,7 @@ resource "aws_lb_target_group" "target-group" {
     interval            = 10
     path                = "/"
     port                = "traffic-port"
-    protocol            = "HTTP"
+    protocol            = "HTTPS"
     timeout             = 5
     healthy_threshold   = 2
     unhealthy_threshold = 2
@@ -35,7 +35,7 @@ resource "aws_lb_target_group" "target-group" {
 resource "aws_lb_listener" "alb-listener" {
   load_balancer_arn = aws_lb.test.arn
   port              = 5000
-  protocol          = "HTTP"
+  protocol          = "HTTPS"
   depends_on        = [aws_lb_target_group.target-group]
 
   default_action {
