@@ -31,8 +31,7 @@ age = 40
 filtered_df = df.filter(df[third_column] >= age)
 filtered_df.show()
 filtered_df.write.csv("s3://ddsl-extension-bucket/filtered_data.csv", header=True)
-#df_transformed = df.filter(col(first_column) >= number)
-#df_transformed.write.mode('overwrite').csv(output_path, header=True)
+
 lineage_data = {
     "job_name": "YourSparkJob",
     "inputs": [input_path],
