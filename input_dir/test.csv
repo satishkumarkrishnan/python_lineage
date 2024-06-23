@@ -1,9 +1,9 @@
 emp_id	name	age	position	
-1	sachin	30	Software Engineer	
-2	mark	45	manager	
-3	johnson	40	manager	
-4	emily	32	data anlyst	
-5	lisa	45	project manager	
-6	molly	33	project manager	
-7	thomas	40	Software Engineer	
-8	amanda	35	data anlyst	
+1,sachin,30,Software Engineer	
+2,mark,45,manager	
+3,johnson,40,manager	
+4,emily,32,data anlyst	
+5,lisa,45project manager	
+6,molly,33,project manager	
+7,thomas,40,Software Engineer	
+8,amanda,35,data anlyst	
