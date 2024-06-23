@@ -15,7 +15,7 @@ spark = (SparkSession.builder.master('local').appName('Python Spark SQL basic ex
          .config('spark.some.config.option', 'some-value')         
          .config('spark.extraListeners', 'io.openlineage.spark.agent.OpenLineageSparkListener')
          .config('spark.openlineage.transport.type', 'http')
-         .config('spark.openlineage.transport.url', 'http://ddsl-alb-643039666.ap-northeast-1.elb.amazonaws.com:80')
+         .config('spark.openlineage.transport.url', 'http://ddsl-alb-643039666.ap-northeast-1.elb.amazonaws.com:5000')
          .config('spark.openlineage.namespace', 'spark_namespace')
          .config('spark.openlineage.parentJobNamespace', 'airflow_namespace')
          .config('spark.openlineage.parentJobName', 'airflow_dag.airflow_task')
