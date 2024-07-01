@@ -23,8 +23,8 @@ sc = spark.sparkContext
 sqlContext = SQLContext(sc)
 
 # Your Spark job code
-input_path = "C://Users//satishkr//PycharmProjects//pythonProject3//pythonProject//lineage//test.csv"
-output_path = "C://Users/satishkr//PycharmProjects//pythonProject3//pythonProject//lineage//dlineage.json"
+input_path = "s3://ddsl-rawdata-bucket/test.csv"
+output_path = "s3://ddsl-extension-bucket/dlineage.json"
 
 # Read CSV file
 df = spark.read.csv(input_path, header=True)
