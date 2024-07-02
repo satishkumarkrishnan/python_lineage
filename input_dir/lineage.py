@@ -1,32 +1,28 @@
 from pyspark.sql import SparkSession
 from pyspark import conf
+from awsglue.context import GlueContext
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 from pyspark import SparkContext
- 
-jar_path = "s3://ddsl-rawdata-bucket/openlineage-spark_2.12-1.13.1.jar"
+import json
+import boto3
 
 sc =SparkContext.getOrCreate()
 sc.setLogLevel("DEBUG")
-spark = (SparkSession.builder.master('local').appName('Python Spark SQL basic example')    
-         .config('spark.jars', jar_path)     
-         .config('spark.some.config.option', 'some-value')         
-         .config('spark.extraListeners', 'io.openlineage.spark.agent.OpenLineageSparkListener')
-         .config('spark.openlineage.transport.type', 'http')
-         .config('spark.openlineage.transport.url', 'http://ddsl-alb-2104325527.ap-northeast-1.elb.amazonaws.com:8080') \
-         .config('spark.openlineage.namespace', 'spark_namespace')
-         .config('spark.openlineage.parentJobNamespace', 'airflow_namespace')
-         .config('spark.openlineage.parentJobName', 'airflow_dag.airflow_task')
-         .config('spark.openlineage.parentRunId', 'xxxx-xxxx-xxxx-xxxx')
-         .getOrCreate())
 
-spark.sparkContext.setLogLevel("INFO")
-sc = spark.sparkContext
-sqlContext = SQLContext(sc)
+spark = SparkSession.builder \
+    .appName("OpenLineageExample") \
+    .config("spark.jars.packages", "io.openlineage:openlineage-spark_2.12-1.13.1") \
+    .config("spark.extraListeners", "io.openlineage.spark.agent.OpenLineageSparkListener") \
+    .config('spark.openlineage.transport.type', 'http') \
+    .config('spark.openlineage.transport.url', 'http://ddsl-alb-2104325527.ap-northeast-1.elb.amazonaws.com:8080') \
+    .config('spark.openlineage.transport.endpoint', '/api/v1/lineage') \
+    .config('spark.openlineage.namespace', 'spark_integration') \
+    .getOrCreate()   
 
 # Your Spark job code
 input_path = "s3://ddsl-rawdata-bucket/test.csv"
-output_path = "s3://ddsl-extension-bucket/dlineage.json"
+output_path = "s3://ddsl-extension-bucket/dlineage"
 
 # Read CSV file
 df = spark.read.csv(input_path, header=True)
