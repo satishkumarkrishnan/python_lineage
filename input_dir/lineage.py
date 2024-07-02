@@ -4,9 +4,12 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 from pyspark import SparkContext
  
+jar_path = "s3://ddsl-rawdata-bucket/openlineage-spark_2.12-1.13.1.jar"
+
 sc =SparkContext.getOrCreate()
 sc.setLogLevel("DEBUG")
-spark = (SparkSession.builder.master('local').appName('Python Spark SQL basic example')         
+spark = (SparkSession.builder.master('local').appName('Python Spark SQL basic example')    
+         .config('spark.jars', jar_path)     
          .config('spark.some.config.option', 'some-value')         
          .config('spark.extraListeners', 'io.openlineage.spark.agent.OpenLineageSparkListener')
          .config('spark.openlineage.transport.type', 'http')
