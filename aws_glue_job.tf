@@ -8,7 +8,7 @@ resource "aws_glue_job" "example" {
   worker_type = "G.1X"
   command {
    # name            = "pythonshell"
-    script_location = "s3://${aws_s3_bucket.example1.bucket}/datalineage.py" 
+    script_location = "s3://${aws_s3_bucket.example1.bucket}/lineage.py" 
     python_version = "3"
   }
    default_arguments = {    
