@@ -22,6 +22,7 @@ spark = SparkSession.builder \
 
 # Your Spark job code
 input_path = "s3://ddsl-rawdata-bucket/test.csv"
+output_path = "s3://ddsl-extension-bucket/dlineage"
 
 # Read CSV file
 df = spark.read.csv(input_path, header=True)
@@ -80,18 +81,17 @@ lineage_df = {
         "outputFacets": {}
     }]
 }
-print(lineage_df)
+
 # Convert dictionary to JSON string
 lineage_json = json.dumps(lineage_df, indent=4)
 
-
+# Optional: Upload lineage JSON to S3 (commented out)
 # Initialize Glue client
-glue = boto3.client('glue')
 s3 = boto3.client('s3')
 
 # Example S3 location to store lineage information
 s3_bucket = 'ddsl-extension-bucket'
-s3.put_object(Bucket=s3_bucket, Key='lineage.json', Body=lineage_json.encode('utf-8'))
+s3.put_object( Bucket=s3_bucket, Key='lineage.json', Body=lineage_json.encode('utf-8'))
 
 # Stop Spark session
 spark.stop()
