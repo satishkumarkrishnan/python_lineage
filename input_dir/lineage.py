@@ -15,7 +15,7 @@ spark = SparkSession.builder \
     .config("spark.jars.packages", "io.openlineage:openlineage-spark_2.12-1.13.1") \
     .config("spark.extraListeners", "io.openlineage.spark.agent.OpenLineageSparkListener") \
     .config('spark.openlineage.transport.type', 'http') \
-    .config('spark.openlineage.transport.url', 'http://ddsl-alb-543221022.ap-northeast-1.elb.amazonaws.com/:8080') \
+    .config('spark.openlineage.transport.url', 'http://ddsl-alb-543221022.ap-northeast-1.elb.amazonaws.com:8080') \
     .config('spark.openlineage.transport.endpoint', '/api/v1/lineage') \
     .config('spark.openlineage.namespace', 'spark_integration') \
     .getOrCreate()   
